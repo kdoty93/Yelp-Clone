@@ -21,7 +21,7 @@ The following **extensions** are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://i.imgur.com/jFrYzwV.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+https://imgur.com/jFrYzwV
 
 GIF created with [Imgur](http://imgur.com).
 
