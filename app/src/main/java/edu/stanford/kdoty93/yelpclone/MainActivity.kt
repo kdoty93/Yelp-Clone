@@ -1,14 +1,15 @@
  package edu.stanford.kdoty93.yelpclone
 
- import edu.stanford.kdoty93.yelpclone.R
- import edu.stanford.kdoty93.yelpclone.YelpService
  import retrofit2.Call
  import retrofit2.Callback
  import retrofit2.Response
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+ import android.text.Editable
+ import android.text.TextWatcher
  import android.util.Log
+ import android.widget.EditText
  import androidx.recyclerview.widget.LinearLayoutManager
  import androidx.recyclerview.widget.RecyclerView
  import retrofit2.Retrofit
@@ -17,13 +18,17 @@ import retrofit2.converter.gson.GsonConverterFactory
  private const val TAG = "MainActivity"
  private const val BASE_URL = "https://api.yelp.com/v3/"
  private const val API_KEY = "X8uHXLzIK0qY9h85Ux8ZbhSJFtT2ncOLwZAwcnQcQbwY2bEdn9_iQ7Hri_SC23TfFRboDcFXqgJyhhoTXlIqU0OJFs8Q_l1pU4YJfkDVY-z-8-NbkF12wDechT-PYXYx"
- private lateinit var rvRestaurants: RecyclerView
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var rvRestaurants: RecyclerView
+    private lateinit var etSearch: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         rvRestaurants = findViewById(R.id.rvRestaurant)
+        etSearch = findViewById(R.id.etSearch)
 
         val restaurants = mutableListOf<YelpRestaurant>()
         val adapter = RestaurantsAdapter(this, restaurants)
@@ -51,5 +56,26 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        etSearch.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                Log.i(TAG, "afterTextChanged")
+
+                val filteredList = mutableListOf<YelpRestaurant>()
+                for (restaurant in restaurants) {
+                    if (restaurant.name.lowercase().contains(s.toString().lowercase(), true)) {
+                        filteredList.add(restaurant)
+                    }
+                }
+
+                adapter.filterRestaurants(filteredList)
+            }
+
+        })
+
     }
 }

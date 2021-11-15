@@ -1,7 +1,7 @@
 package edu.stanford.kdoty93.yelpclone
 
 import android.content.Context
-import android.media.Image
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.RoundedCorner
 import android.view.View
@@ -15,7 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 
-class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaurant>) :
+class RestaurantsAdapter(val context: Context, var restaurants: List<YelpRestaurant>) :
     RecyclerView.Adapter<RestaurantsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,4 +52,11 @@ class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaur
             )).into(imageView)
         }
     }
+
+    // modify the list of restaurants that will be displayed according to the passed in filtered list
+    fun filterRestaurants(filteredList: MutableList<YelpRestaurant>) {
+        restaurants = filteredList
+        notifyDataSetChanged()
+    }
+
 }
